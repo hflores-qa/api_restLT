@@ -29,6 +29,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ApiTest extends BaseTest {
 
+    @Test
     @Order(3)
     @Story("Obtener lista de usuarios")
     @Description("Validar que el endpoint /users devuelve la lista correctamente")
