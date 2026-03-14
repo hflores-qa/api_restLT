@@ -1,7 +1,6 @@
 package tests;
 
 import Model.Posts;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
@@ -11,9 +10,9 @@ import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-@Epic("API Tests")                // Agrupa todas las pruebas en un "Epic"
-@Feature("Usuarios")              // Define la funcionalidad principal
-@Tag("API")
+@Epic("API Tests")              // Agrupa todas las pruebas en un "Epic"
+@Feature("Usuarios")            // Define la funcionalidad principal
+@Tag("API")                     //mvn test -Dgroups=API
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ApiTest extends BaseTest {
 
