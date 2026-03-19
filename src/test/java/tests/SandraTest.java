@@ -2,13 +2,14 @@ package tests;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.*;
+import static io.restassured.RestAssured.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SandraTest extends BaseTest {
 
@@ -42,4 +43,5 @@ public void testValidarNodo9ConSchema() {
     Allure.step("Username del nodo 9 validado correctamente");
 
     response.then().log().body();
+}
 }
