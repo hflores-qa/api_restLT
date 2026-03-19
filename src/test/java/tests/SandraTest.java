@@ -1,14 +1,15 @@
 package tests;
 
-import io.qameta.allure.Allure;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
-import io.restassured.response.Response;
+import Model.Posts;
+import io.restassured.http.ContentType;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
+import io.qameta.allure.*;
+
 import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.core.IsEqual.equalTo;
+import io.restassured.response.Response;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SandraTest extends BaseTest {
@@ -26,7 +27,7 @@ public void testValidarNodo9ConSchema() {
             .then()
             .statusCode(200)
             // ✅ Valida TODO el array contra el schema
-            .body(matchesJsonSchemaInClasspath("schema/usersSchema.json"))
+            .body(matchesJsonSchemaInClasspath("schema/users.json"))
             .extract().response();
 
     // ✅ Extraer nodo 9 (índice 8)
