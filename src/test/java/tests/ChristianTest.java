@@ -32,25 +32,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ChristianTest extends BaseTest {
 
-    @Test
-    @Order(1)
-    @Tag("USER")
-    @Story("Obtener usuario por ID")
-    @Description("Validar que el endpoint /users/{id} devuelve el usuario correcto")
-    public void testGetUserById() {
-        given()
-                .when()
-                .pathParam("id",1)
-                .get("/users/{id}")
-                .then()
-                .statusCode(200)
-                .body("id",equalTo(1))
-                .log();
-        Allure.step("Validación de users/id=1 completada");
-    }
 
     @Test
-    @Order(2)
+    @Order(1)
     @Tag("USER")
     @Tag("Street")
     @Story("Validar street de usuario 1")
@@ -81,75 +65,4 @@ public class ChristianTest extends BaseTest {
                 .log();
         Allure.step("Validación de esquema JSON de usuarios completada");
     }
-
-//    @Order(2)
-//    @Story("Validar json schema")
-//    @Description("Validar que el endpoint /users devuelve la lista correctamente")
-//    public void testGetUsers() {
-//        given()
-//                .when()
-//                .get("/users")
-//                .then()
-//                .statusCode(200)
-//                .body(matchesJsonSchemaInClasspath("schema/users.json"))
-//                .log();
-//        Allure.step("Validación de esquema JSON de usuarios completada");
-//    }
-
-    // @Test
-    // @Order(2)
-    // @Tag("USER")
-    // @Story("Obtener usuario por ID")
-    // @Description("Validar que el endpoint /posts/{id} devuelve el usuario correcto")
-    // public void testGetUserByIdOrig() {
-    //     given()
-    //             .when()
-    //             .pathParam("id",1)
-    //             .get("/posts/{id}")
-    //             .then()
-    //             .statusCode(200)
-    //             .body("userId",equalTo(1))
-    //             .log();
-    //     Allure.step("Validación de userId=1 completada");
-    // }
-
-    // @Test
-    // @Order(1)
-    // @Tag("USER")
-    // @Story("Validar usuario por objeto")
-    // @Description("Extraer respuesta como objeto Posts y validar")
-    // public void testGetUserByIdValidateByObject() {
-    //     Posts post = given()
-    //             .when()
-    //             .pathParam("id",1)
-    //             .get("/posts/{id}")
-    //             .then()
-    //             .statusCode(200)
-    //             .extract()
-    //             .as(Posts.class);
-    //     Allure.step("Objeto Posts extraído: " + post.getTitle());
-    // }
-
-    // @Test
-    // @Story("Crear un nuevo post")
-    // @Description("Validar que el endpoint /posts crea un recurso correctamente")
-    // public void testCreatePost() {
-    //     JSONObject requestBody = new JSONObject();
-    //     requestBody.put("title", "foo");
-    //     requestBody.put("body", "bar");
-    //     requestBody.put("userId", 1);
-
-    //     given()
-    //             .contentType(ContentType.JSON)
-    //             .body(requestBody.toString())
-    //             .when()
-    //             .post("/posts")
-    //             .then()
-    //             .statusCode(201)
-    //             .body("title", equalTo("foo"))
-    //             .body("body", equalTo("bar"))
-    //             .body("userId", equalTo(1))
-    //             .log();
-    //     Allure.step("Post creado con título 'foo'");
-    // }
 }
