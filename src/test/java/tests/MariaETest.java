@@ -23,6 +23,7 @@ public class MariaETest extends BaseTest {
      * Precondiciones: Servicio disponible y existencia del archivo schema/latSchema.json
      */
     @Test
+    @Tag("SMOKE")
     @Story("Validar latitud del usuario 2")
     @Description("Valida esquema, nodo asignado, longitud y contenido de la latitud para el ID 2")
     public void testValidarLatitudUsuario2() {

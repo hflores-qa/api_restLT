@@ -13,6 +13,8 @@ import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 //ejecuta el TestSuite
 //mvn clean test
@@ -28,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Epic("API Tests")
 @Feature("Usuarios")
-@Tag("API")
+@Tag("SMOKE")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ApiTest extends BaseTest {
 
@@ -52,6 +54,7 @@ public class ApiTest extends BaseTest {
         // Validación de schema
         Allure.step("Validación de schema");
         response.then().body(matchesJsonSchemaInClasspath("schema/users.json"));
+        assertThat(response.asString(),matchesJsonSchemaInClasspath("schema/users.json"));
 
         // Assert explícito para contenido
         List<Integer> ids = response.jsonPath().getList("id");

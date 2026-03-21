@@ -1,22 +1,16 @@
 package tests;
 
-import Model.Posts;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import io.qameta.allure.*;
 import utils.AllureUtils;
 
 import static io.restassured.RestAssured.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Epic("API Tests")
 @Feature("Usuarios")
 @Tag("API")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StephanyTest extends BaseTest {
 
     /**
@@ -25,7 +19,7 @@ public class StephanyTest extends BaseTest {
      * Precondiciones: Existe registro con id=4
      */
     @Test
-    @Order(3)
+    @Tag("SMOKE")
     @Story("Obtener lista de usuarios")
     @Description("Validar que el endpoint /users devuelve en el id=4 catchPhrase: Multi-tiered zero tolerance productivity")
     public void testValidarCatchPhraseUser4() {
@@ -48,7 +42,7 @@ public class StephanyTest extends BaseTest {
      * Precondiciones: Existe registro con id=4
      */
     @Test
-    @Order(3)
+    @Tag("SMOKE")
     @Story("Obtener lista de usuarios")
     @Description("Validar que el endpoint /users devuelve en el id=4 catchPhrase: Multi-tiered zero tolerance productivity")
     public void testValidarCatchPhraseUser4_2() {
