@@ -13,9 +13,9 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Epic("API Tests")              // Agrupa todas las pruebas en un "Epic"
-@Feature("Usuarios")            // Define la funcionalidad principal
-@Tag("API")                     //mvn test -Dgroups=API
+@Epic("API Tests")
+@Feature("Usuarios")
+@Tag("API")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StephanyTest extends BaseTest {
 
@@ -41,6 +41,7 @@ public class StephanyTest extends BaseTest {
 
         Allure.step("Validación correcta del campo catchPhrase");
     }
+
     /**
      * Caso de prueba : Validar User=4 param catchPhrase
      * Funcionamiento: Valida respuesta
@@ -53,21 +54,19 @@ public class StephanyTest extends BaseTest {
     public void testValidarCatchPhraseUser4_2() {
         Response response =
                 given()
-                        .pathParam("id",4)
+                        .pathParam("id", 4)
                         .when()
                         .get("/users/{id}");
-        // 🔥 Validaciones
         response.then()
                 .log().ifValidationFails()
                 .statusCode(200)
                 .body("id", equalTo(4))
                 .body("company.catchPhrase", equalTo("Multi-tiered zero tolerance productivity"));
-        // 🔥 Extraer datos
+
         String responseBody = response.getBody().asString();
         String headers = response.getHeaders().toString();
         int statusCode = response.getStatusCode();
 
-        // 🔥 Attachments manuales (extra evidencia)
         Allure.step("Adjuntando evidencia adicional");
 
         AllureUtils.attachText("Endpoint", "/users/{id}");
