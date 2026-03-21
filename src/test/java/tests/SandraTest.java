@@ -14,8 +14,8 @@ public class SandraTest extends BaseTest {
 
      /**
      * Caso de prueba: Validar nodo 9 de la lista de usuarios cargada en la clase ApiTest
-     * Funcionamiento: Valida el jsonschema para el contenido del nodo 9
-     * Precondiciones: Servicio disponible
+     * Funcionamiento: Valida el json schema para el contenido del nodo 9
+     * Precondiciones: Matriz de usuarios y json schema disponible
      */
 
     @Test
