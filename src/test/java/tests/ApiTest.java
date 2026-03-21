@@ -78,18 +78,15 @@ public class ApiTest extends BaseTest {
                         .when()
                         .get("/posts/{id}");
 
-        // 🔥 Validaciones
         response.then()
                 .log().ifValidationFails()
                 .statusCode(200)
                 .body("userId", equalTo(1));
 
-        // 🔥 Extraer datos
         String responseBody = response.getBody().asString();
         String headers = response.getHeaders().toString();
         int statusCode = response.getStatusCode();
 
-        // 🔥 Attachments manuales (extra evidencia)
         Allure.step("Adjuntando evidencia adicional");
 
         AllureUtils.attachText("Endpoint", "/posts/{id}");
@@ -148,7 +145,6 @@ public class ApiTest extends BaseTest {
                 .statusCode(201)
                 .body("title", equalTo("foo"));
 
-        // 🔥 Attach request/response
         AllureUtils.attachResponse("Request Body", requestBody.toString());
         AllureUtils.attachResponse("Response Body", response.getBody().asString());
     }
