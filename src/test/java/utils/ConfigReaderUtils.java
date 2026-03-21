@@ -3,13 +3,13 @@ package utils;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigReader {
+public class ConfigReaderUtils {
 
     private static Properties properties = new Properties();
 
     static {
         try {
-            InputStream input = ConfigReader.class
+            InputStream input = ConfigReaderUtils.class
                     .getClassLoader()
                     .getResourceAsStream("config.properties");
             properties.load(input);
