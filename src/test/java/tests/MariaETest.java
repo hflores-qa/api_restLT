@@ -10,15 +10,14 @@ import org.junit.jupiter.api.*;
 import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 @Epic("API Tests")
 @Feature("Validación de Ubicación de Usuarios")
 @Tag("API")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MariaETest extends BaseTest {
 
     @Test
-    @Order(1)
     @Story("Validar latitud del usuario 2")
     @Description("Valida esquema, nodo asignado, longitud y contenido de la latitud para el ID 2")
     public void testValidarLatitudUsuario2() {
@@ -30,7 +29,6 @@ public class MariaETest extends BaseTest {
                 .get("/users/{id}")
                 .then()
                 .statusCode(200)
-                .body(matchesJsonSchemaInClasspath("schema/latSchema.json"))
                 .extract().response();
 
         // Se obliga que sea String usando .toString()
@@ -48,6 +46,11 @@ public class MariaETest extends BaseTest {
         int longitudEsperada = 8;
         assertEquals(longitudEsperada, latitud.length(), "La longitud del campo lat no coincide");
         Allure.step("Longitud del campo validada: " + latitud.length() + " caracteres");
+
+        Allure.step("Se compara Jaxon Squemna");
+        response.then().body(matchesJsonSchemaInClasspath("schema/latSchema.json"));
+        assertThat(response.asString(),matchesJsonSchemaInClasspath("schema/latSchema.json"));
+
 
         response.then().log().body();
     }
