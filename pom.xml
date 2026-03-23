@@ -107,7 +107,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
-
+                    <includeTags>smoke</includeTags>
                     <!-- Activa extensiones JUnit 5 -->
                     <properties>
                         <configurationParameters>
