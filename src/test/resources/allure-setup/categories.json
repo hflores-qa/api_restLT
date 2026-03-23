@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Errores de Assertion (Validaciones)",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*expected.*|.*assert.*|.*mismatch.*"
+  },
+  {
+    "name": "Errores de API (5xx)",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*500.*|.*502.*|.*503.*|.*504.*"
+  },
+  {
+    "name": "Errores de Cliente (4xx)",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*400.*|.*401.*|.*403.*|.*404.*"
+  },
+  {
+    "name": "Errores de Timeout / Conexión",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*timeout.*|.*timed out.*|.*Connection refused.*|.*connect.*"
+  },
+  {
+    "name": "Errores de Parsing / JSON",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*JSON.*|.*parse.*|.*mapping.*"
+  },
+  {
+    "name": "Errores de Schema",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*schema.*|.*validation.*"
+  },
+  {
+    "name": "Errores Desconocidos",
+    "matchedStatuses": ["broken"]
+  }
+]

@@ -12,26 +12,13 @@ import java.util.List;
 import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-
-//ejecuta el TestSuite
-//mvn clean test
-
-//Ejecuta testsuite por tag
-//mvn clean test -Denv="USER"
-
-//Ejecuta testsuite y realiza index offline de reporte
-//mvn clean test; allure generate target/allure-results --clean -o allure-report
-
-//Realiza servidor de allure para visualizar reporte
-//allure serve target/allure-results
 
 @Epic("API Tests")
 @Feature("Usuarios")
 @Tag("SMOKE")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ApiTest extends BaseTest {
 
     /**
@@ -40,29 +27,36 @@ public class ApiTest extends BaseTest {
      * Precondiciones: Servicio disponible
      */
     @Test
-    @Order(3)
     public void testGetUsers() {
+
+        // Paso: enviar request
+        Allure.step("Enviar request GET /users");
+
         Response response = given()
                 .when()
-                .get("/users")
-                .then()
-                .log().ifValidationFails()
-                .statusCode(200)
-                .extract()
-                .response();
+                .get("/users");
 
-        // Validación de schema
-        Allure.step("Validación de schema");
+        // Paso: validar status code
+        Allure.step("Validar status code 200");
+        response.then().statusCode(200);
+
+        // Paso: validar schema
+        Allure.step("Validar schema users.json");
         response.then().body(matchesJsonSchemaInClasspath("schema/users.json"));
-        assertThat(response.asString(),matchesJsonSchemaInClasspath("schema/users.json"));
 
-        // Assert explícito para contenido
+        // Validación adicional con assert
+        assertThat(response.asString(), matchesJsonSchemaInClasspath("schema/users.json"));
+
+        // Extraer lista de IDs
         List<Integer> ids = response.jsonPath().getList("id");
-        Allure.step("Verificar que exista el usuario con id 1");
+
+        // Paso: validar existencia de usuario
+        Allure.step("Validar que exista el usuario con id 1");
         assertTrue(ids.contains(1), "El usuario con id 1 debería existir");
 
-        Allure.step("Verificación de cantidad de usuarios");
-        assertTrue(ids.size() > 0, "Debería haber al menos un usuario");
+        // Paso: validar lista no vacía
+        Allure.step("Validar que la lista de usuarios no esté vacía");
+        assertFalse(ids.isEmpty(), "Debería haber al menos un usuario");
     }
 
     /**
@@ -71,26 +65,33 @@ public class ApiTest extends BaseTest {
      * Precondiciones: Existe registro con id=1
      */
     @Test
-    @Order(2)
     @Tag("USER")
     public void testGetUserById() {
 
+        // Paso: enviar request con path param
+        Allure.step("Enviar request GET /posts/{id} con id=1");
+
         Response response =
                 given()
-                        .pathParam("id",1)
+                        .pathParam("id", 1)
                         .when()
                         .get("/posts/{id}");
 
-        response.then()
-                .log().ifValidationFails()
-                .statusCode(200)
-                .body("userId", equalTo(1));
+        // Paso: validar status code
+        Allure.step("Validar status code 200");
+        response.then().statusCode(200);
 
+        // Paso: validar contenido
+        Allure.step("Validar que userId sea igual a 1");
+        response.then().body("userId", equalTo(1));
+
+        // Extraer datos para evidencia
         String responseBody = response.getBody().asString();
         String headers = response.getHeaders().toString();
         int statusCode = response.getStatusCode();
 
-        Allure.step("Adjuntando evidencia adicional");
+        // Paso: adjuntar evidencia en Allure
+        Allure.step("Adjuntando evidencia completa");
 
         AllureUtils.attachText("Endpoint", "/posts/{id}");
         AllureUtils.attachText("Método", "GET");
@@ -105,21 +106,24 @@ public class ApiTest extends BaseTest {
      * Precondiciones: Endpoint disponible
      */
     @Test
-    @Order(1)
     @Tag("USER")
     public void testGetUserByIdValidateByObject() {
+
+        // Paso: enviar request y extraer response
+        Allure.step("Enviar request GET /posts/{id} y extraer body");
 
         String response =
                 given()
                         .when()
-                        .pathParam("id",1)
+                        .pathParam("id", 1)
                         .get("/posts/{id}")
                         .then()
-                        .log().ifValidationFails()
                         .statusCode(200)
                         .extract()
                         .asString();
 
+        // Paso: adjuntar response
+        Allure.step("Adjuntar body de respuesta en Allure");
         AllureUtils.attachResponse("Body extraído", response);
     }
 
@@ -131,10 +135,16 @@ public class ApiTest extends BaseTest {
     @Test
     public void testCreatePost() {
 
+        // Paso: construir request body
+        Allure.step("Construir request body para creación de post");
+
         JSONObject requestBody = new JSONObject();
         requestBody.put("title", "foo");
         requestBody.put("body", "bar");
         requestBody.put("userId", 1);
+
+        // Paso: enviar request POST
+        Allure.step("Enviar request POST /posts");
 
         Response response =
                 given()
@@ -143,11 +153,16 @@ public class ApiTest extends BaseTest {
                         .when()
                         .post("/posts");
 
-        response.then()
-                .log().ifValidationFails()
-                .statusCode(201)
-                .body("title", equalTo("foo"));
+        // Paso: validar status code
+        Allure.step("Validar status code 201");
+        response.then().statusCode(201);
 
+        // Paso: validar contenido
+        Allure.step("Validar que el title sea 'foo'");
+        response.then().body("title", equalTo("foo"));
+
+        // Adjuntar evidencia
+        Allure.step("Adjuntar request y response en Allure");
         AllureUtils.attachResponse("Request Body", requestBody.toString());
         AllureUtils.attachResponse("Response Body", response.getBody().asString());
     }
