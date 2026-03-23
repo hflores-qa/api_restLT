@@ -27,6 +27,7 @@ public class ApiTest extends BaseTest {
      * Precondiciones: Servicio disponible
      */
     @Test
+    @Tag("USERS")
     public void testGetUsers() {
 
         // Paso: enviar request
@@ -64,7 +65,9 @@ public class ApiTest extends BaseTest {
      * Funcionamiento: Valida respuesta y adjunta evidencia completa
      * Precondiciones: Existe registro con id=1
      */
-    @Tag("USER")
+
+    @Test
+    @Tag("USERS")
     public void testGetUserById() {
 
         // Paso: enviar request con path param
@@ -104,7 +107,8 @@ public class ApiTest extends BaseTest {
      * Funcionamiento: Extrae response y lo adjunta a Allure
      * Precondiciones: Endpoint disponible
      */
-    @Tag("USER")
+    @Test
+    @Tag("POSTS")
     public void testGetUserByIdValidateByObject() {
 
         // Paso: enviar request y extraer response
@@ -130,6 +134,9 @@ public class ApiTest extends BaseTest {
      * Funcionamiento: Valida creación de recurso
      * Precondiciones: Endpoint disponible
      */
+    @Test
+    @Tag("POSTS")
+    @Disabled("Actualmente presenta error")
     public void testCreatePost() {
 
         // Paso: construir request body

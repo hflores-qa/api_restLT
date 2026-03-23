@@ -18,7 +18,6 @@ public class SandraTest extends BaseTest {
      * Precondiciones: Matriz de usuarios y json schema disponible
      */
 
-    @Tag("SandraTest")
     @Tag("SMOKE")
     @Story("Validar estructura del usuario 9")
     @Description("Valida que la lista de usuarios cumpla el schema y que el nodo 9 sea válido")

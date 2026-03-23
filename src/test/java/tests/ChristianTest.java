@@ -23,7 +23,6 @@ import static io.restassured.RestAssured.given;
 @Tag("API")
 public class ChristianTest extends BaseTest {
 
-    @Tag("User")
     @Tag("SMOKE")
     @Story("Validar street de usuario 1")
     @Description("Obtener usuario 1 y validar que el street del address sea Kulas Light")
