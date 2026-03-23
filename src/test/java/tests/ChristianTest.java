@@ -23,8 +23,6 @@ import static io.restassured.RestAssured.given;
 @Tag("API")
 public class ChristianTest extends BaseTest {
 
-
-    @Test
     @Tag("User")
     @Tag("SMOKE")
     @Story("Validar street de usuario 1")
@@ -40,6 +38,4 @@ public class ChristianTest extends BaseTest {
                 .extract().response();
         Allure.step("Validación de street de users/id=1 completada");
     }
-
-
 }

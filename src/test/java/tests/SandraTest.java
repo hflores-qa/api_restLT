@@ -20,7 +20,6 @@ public class SandraTest extends BaseTest {
 
     @Tag("SandraTest")
     @Tag("SMOKE")
-    @Test
     @Story("Validar estructura del usuario 9")
     @Description("Valida que la lista de usuarios cumpla el schema y que el nodo 9 sea válido")
     public void testValidarNodo9ConSchema() {

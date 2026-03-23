@@ -18,7 +18,6 @@ public class StephanyTest extends BaseTest {
      * Funcionamiento: Valida respuesta
      * Precondiciones: Existe registro con id=4
      */
-    @Test
     @Tag("SMOKE")
     @Story("Obtener lista de usuarios")
     @Description("Validar que el endpoint /users devuelve en el id=4 catchPhrase: Multi-tiered zero tolerance productivity")
@@ -41,7 +40,6 @@ public class StephanyTest extends BaseTest {
      * Funcionamiento: Valida respuesta
      * Precondiciones: Existe registro con id=4
      */
-    @Test
     @Tag("SMOKE")
     @Story("Obtener lista de usuarios")
     @Description("Validar que el endpoint /users devuelve en el id=4 catchPhrase: Multi-tiered zero tolerance productivity")

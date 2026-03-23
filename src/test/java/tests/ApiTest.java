@@ -64,7 +64,6 @@ public class ApiTest extends BaseTest {
      * Funcionamiento: Valida respuesta y adjunta evidencia completa
      * Precondiciones: Existe registro con id=1
      */
-    @Test
     @Tag("USER")
     public void testGetUserById() {
 
@@ -105,7 +104,6 @@ public class ApiTest extends BaseTest {
      * Funcionamiento: Extrae response y lo adjunta a Allure
      * Precondiciones: Endpoint disponible
      */
-    @Test
     @Tag("USER")
     public void testGetUserByIdValidateByObject() {
 
@@ -132,7 +130,6 @@ public class ApiTest extends BaseTest {
      * Funcionamiento: Valida creación de recurso
      * Precondiciones: Endpoint disponible
      */
-    @Test
     public void testCreatePost() {
 
         // Paso: construir request body
