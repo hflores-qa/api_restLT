@@ -35,6 +35,7 @@ public class ApiTest extends BaseTest {
 
         Response response = given()
                 .when()
+<<<<<<< HEAD
                 .get("/users");
 
         // Paso: validar status code
@@ -58,6 +59,14 @@ public class ApiTest extends BaseTest {
         // Paso: validar lista no vacía
         Allure.step("Validar que la lista de usuarios no esté vacía");
         assertFalse(ids.isEmpty(), "Debería haber al menos un usuario");
+=======
+                .get("/users")
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schema/users.json"))
+                .log().all();
+        Allure.step("Validación de esquema JSON de usuarios completada");
+>>>>>>> 926ac85 (guardando cambios antes de pull)
     }
 
     /**
