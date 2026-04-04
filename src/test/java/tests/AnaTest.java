@@ -50,7 +50,7 @@ public class AnaTest extends BaseTest {
     }
 
     @Test
-    @Order(2)
+    @Order(2)w
     @Tag("USER")
     @Tag("Street")
     @Story("Validar bs de usuario 7")
