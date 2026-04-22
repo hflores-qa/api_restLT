@@ -128,7 +128,6 @@ public class ApiTest extends BaseTest {
     @Tag("POSTS")
     @Disabled("Actualmente presenta error")
     public void testCreatePost() {
-
         StepLogger.step("Construir request body");
 
         JSONObject requestBody = new JSONObject();
