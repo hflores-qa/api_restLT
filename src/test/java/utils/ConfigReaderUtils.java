@@ -9,27 +9,32 @@ public class ConfigReaderUtils {
 
     static {
         try {
-            // Obtenemos el ambiente desde variable de sistema "env", default = "QA"
-            String env = System.getProperty("env", "QA");
+            String env = System.getProperty("env", "qa").toLowerCase();
             String fileName = env + ".properties";
 
-            // Cambiamos la ruta para buscar dentro de resources/config/
-            InputStream input = ConfigReaderUtils.class
+            // Carga desde classpath (resources/config/)
+            try (InputStream input = ConfigReaderUtils.class
                     .getClassLoader()
-                    .getResourceAsStream("config/" + fileName);
+                    .getResourceAsStream("config/" + fileName)) {
 
-            if (input == null) {
-                throw new RuntimeException("Archivo de configuración no encontrado: config/" + fileName);
+                if (input == null) {
+                    throw new RuntimeException(
+                            "No se encontró el archivo: config/" + fileName +
+                                    " en src/test/resources/config/"
+                    );
+                }
+
+                properties.load(input);
             }
 
-            properties.load(input);
-
         } catch (Exception e) {
-            throw new RuntimeException("Error cargando archivo de configuración: " + e.getMessage(), e);
+            throw new RuntimeException(
+                    "Error cargando configuración: " + e.getMessage(), e
+            );
         }
     }
 
-    /** Obtiene el valor de la clave desde el archivo de configuración */
+    // Obtener valor por key
     public static String get(String key) {
         return properties.getProperty(key);
     }
