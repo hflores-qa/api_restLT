@@ -6,6 +6,10 @@ on:
       - master
       - main
 
+# CLAVE: permisos para poder hacer push a gh-pages
+permissions:
+  contents: write
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -14,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Clonar repo
+      # 1. Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -33,12 +37,12 @@ jobs:
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: maven-${{ runner.os }}
 
-      # 4. Ejecutar tests (IMPORTANTE: aquí se generan allure-results)
+      # 4. Ejecutar tests
       - name: Run tests
         run: mvn clean test -Denv=qa
 
-      # 🔍 DEBUG (clave para evitar "Loading...")
-      - name: Verify Allure Results
+      # DEBUG: verificar que sí existan results
+      - name: Debug Allure Results
         run: ls -la target/allure-results || true
 
       # 5. Instalar Allure CLI
@@ -49,8 +53,8 @@ jobs:
       - name: Generate Allure Report
         run: allure generate target/allure-results --clean -o target/allure-report
 
-      # 🔍 DEBUG reporte
-      - name: Verify Allure Report
+      # DEBUG: verificar reporte
+      - name: Debug Allure Report
         run: ls -la target/allure-report || true
 
       # 7. Subir artifact (descarga ZIP opcional)
@@ -60,8 +64,8 @@ jobs:
           name: allure-report
           path: target/allure-report
 
-      # 8. Publicar en GitHub Pages (deploy automático)
-      - name: Deploy Allure Report to GitHub Pages
+      # 8. Deploy a GitHub Pages
+      - name: Deploy Allure Report
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
