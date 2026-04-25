@@ -1,0 +1,48 @@
+name: Demo clase16 con Hugo
+
+on: [push]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+#Clonar el repositorio
+      - name: Checkout
+        uses: actions/checkout@v4
+
+#instalar java
+      -  name: Instalar Java
+         uses: actions/setup-java@v4
+         with:
+          distribution: 'temurin'
+          java-version: '17'
+
+# Para hacer el pipeline más rápido
+      - name: Guardar Cache de Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-${{ runner.os }}
+
+      - name: Ejecutar los casos de prueba
+        run: mvn clean test
+
+      - name: Instalar Allure
+        run: npm install -g allure-commandline --save-dev
+
+# 6. Generar reporte Allure
+      - name: Generate Allure Report
+        run: allure generate target/allure-results --clean -o target/allure-report
+
+# 7. Subir reporte (CORREGIDO v4)
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+         name: allure-report
+         path: target/allure-report
