@@ -1,0 +1,47 @@
+name: API Tests + Allure Report
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Clonar repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Instalar Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Cache de Maven (opcional pero PRO)
+      - name: Cache Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-${{ runner.os }}
+
+      # 4. Ejecutar tests
+      - name: Run tests
+        run: mvn clean test
+
+      # 5. Instalar Allure CLI
+      - name: Install Allure
+        run: npm install -g allure-commandline --save-dev
+
+      # 6. Generar reporte Allure
+      - name: Generate Allure Report
+        run: allure generate target/allure-results --clean -o target/allure-report
+
+      # 7. Subir reporte (CORREGIDO v4)
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/allure-report
