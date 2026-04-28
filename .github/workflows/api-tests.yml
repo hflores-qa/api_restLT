@@ -1,4 +1,4 @@
-name: API Tests + Allure Report (Pages + Single File)
+name: API Tests + Allure Report (latest + history)
 
 on:
   push:
@@ -14,77 +14,64 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout
+      # 1) Clonar repositorio
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Java
+      # 2) Preparar Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # 3. Cache Maven
+      # 3) Cache de Maven
       - name: Cache Maven
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
 
-      # 4. Allure CLI
+      # 4) Instalar Allure CLI
       - name: Install Allure
         run: npm install -g allure-commandline
 
-      # 5. Tests
+      # 5) Ejecutar pruebas
       - name: Run tests
         run: mvn clean test -Denv=qa
 
-      # 6. Validar results
+      # 6) Validar que existan resultados
       - name: Validate Allure Results
         run: |
           if [ ! -d "target/allure-results" ] || [ -z "$(ls -A target/allure-results)" ]; then
-            echo "❌ No hay resultados de Allure"
+            echo "No hay resultados de Allure"
             exit 1
           fi
 
-      # 7. Reporte normal (para Pages)
-      - name: Generate Allure Report (Pages)
+      # 7) Generar reporte Allure
+      - name: Generate Allure Report
         run: |
           rm -rf target/allure-report
           allure generate target/allure-results --clean -o target/allure-report
 
-      # 8. Reporte single-file
-      - name: Generate Allure Single File
-        run: |
-          rm -rf target/allure-report-single
-          allure generate target/allure-results --single-file -o target/allure-report-single
-
-      # 9. Validar reporte normal
-      - name: Validate Allure Report
-        run: |
-          if [ ! -f "target/allure-report/index.html" ]; then
-            echo "❌ Reporte no generado"
-            exit 1
-          fi
-
-      # 10. Subir artifact normal
-      - name: Upload Allure Report (Full)
+      # 8) Subir artifact (opcional, para descarga)
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-full
+          name: allure-report
           path: target/allure-report
 
-      # 11. Subir artifact single file
-      - name: Upload Allure Report (Single File)
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report-single
-          path: target/allure-report-single
-
-      # 12. Deploy a Pages (usa el completo)
-      - name: Deploy to GitHub Pages
+      # 9) Deploy del último reporte (raíz)
+      - name: Deploy latest report
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: target/allure-report
+
+      # 10) Deploy histórico por ejecución
+      - name: Deploy report history
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/allure-report
+          destination_dir: reports/${{ github.run_number }}
